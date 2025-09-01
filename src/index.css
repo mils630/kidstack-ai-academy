@@ -177,14 +177,6 @@
   .learning-sql { color: hsl(var(--learning-sql)); }
   .learning-ai { color: hsl(var(--learning-ai)); }
   
-  /* Background utilities for learning languages */
-  .bg-learning-python { background-color: hsl(var(--learning-python)); }
-  .bg-learning-javascript { background-color: hsl(var(--learning-javascript)); }
-  .bg-learning-html { background-color: hsl(var(--learning-html)); }
-  .bg-learning-css { background-color: hsl(var(--learning-css)); }
-  .bg-learning-sql { background-color: hsl(var(--learning-sql)); }
-  .bg-learning-ai { background-color: hsl(var(--learning-ai)); }
-  
   /* XP and gamification utilities */
   .xp-bronze { color: hsl(var(--xp-bronze)); }
   .xp-silver { color: hsl(var(--xp-silver)); }
