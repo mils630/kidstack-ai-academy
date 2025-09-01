@@ -120,9 +120,7 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" 
-             style={{backgroundImage: "url('https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')"}}></div>
-        <div className="absolute inset-0 gradient-hero opacity-30"></div>
+        <div className="absolute inset-0 gradient-hero opacity-10"></div>
         <div className="container relative px-4 md:px-6">
           <div className="flex flex-col items-center space-y-8 text-center">
             <div className="space-y-4">
