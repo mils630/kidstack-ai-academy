@@ -11,9 +11,18 @@
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
-    "skipLibCheck": true,
-    "allowJs": true,
     "noUnusedLocals": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+
+    // 🔑 Fixes Supabase import issue
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // Helps with libraries
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
