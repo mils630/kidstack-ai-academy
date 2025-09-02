@@ -1,6 +1,6 @@
 # KidStack AI Academy
 
-**Live Web App:** [ https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75]
+**Live Web App:** [https://preview--kidstack-ai-academy.lovable.app/]
 
 ---
 
@@ -21,7 +21,7 @@ KidStack AI Academy is an interactive web platform designed to introduce childre
 
 ## How to Use
 
-1. Visit the [web app]( https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75).
+1. Visit the [web app]( https://preview--kidstack-ai-academy.lovable.app/).
 2. Explore interactive lessons and challenges.
 3. Practice coding and AI concepts in a safe, supportive environment.
 
