@@ -1,9 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { GraduationCap, Users, Sparkles, ArrowLeft, Heart, Shield, Zap } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { GraduationCap, Users, Sparkles, ArrowLeft, Heart, Shield, Zap, Phone, Mail } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -11,6 +16,14 @@ const AuthPage = () => {
   const preselectedRole = searchParams.get('role');
   const [selectedRole, setSelectedRole] = useState<string | null>(preselectedRole);
   const [authMode, setAuthMode] = useState<'select' | 'login' | 'signup'>('select');
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    phone: '',
+    fullName: '',
+    confirmPassword: ''
+  });
 
   const roles = [
     {
@@ -61,11 +74,60 @@ const AuthPage = () => {
     setSelectedRole(null);
   };
 
-  const handleContinue = () => {
-    if (selectedRole === 'student') {
-      navigate('/student');
-    } else if (selectedRole === 'educator') {
-      navigate('/educator');
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      if (authMode === 'signup') {
+        if (formData.password !== formData.confirmPassword) {
+          toast.error("Passwords don't match");
+          return;
+        }
+
+        const { data, error } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.fullName,
+              role: selectedRole,
+              phone: formData.phone
+            }
+          }
+        });
+
+        if (error) throw error;
+        
+        toast.success("Account created successfully! Please check your email to verify your account.");
+        
+        // Navigate to dashboard
+        if (selectedRole === 'student') {
+          navigate('/student');
+        } else if (selectedRole === 'educator') {
+          navigate('/educator');
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (error) throw error;
+        
+        toast.success("Welcome back!");
+        
+        // Navigate to dashboard
+        if (selectedRole === 'student') {
+          navigate('/student');
+        } else if (selectedRole === 'educator') {
+          navigate('/educator');
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred during authentication");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,12 +144,15 @@ const AuthPage = () => {
               <span className="font-bold text-xl">Kid.Stack AI</span>
             </Link>
             
-            <Link to="/" className="ml-auto">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Button>
-            </Link>
+            <div className="ml-auto flex items-center space-x-2">
+              <ThemeToggle />
+              <Link to="/">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
           </div>
         </header>
 
@@ -179,10 +244,13 @@ const AuthPage = () => {
             <span className="font-bold text-xl">Kid.Stack AI</span>
           </Link>
           
-          <Button variant="ghost" size="sm" onClick={handleBackToRoleSelect} className="ml-auto">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Role Selection
-          </Button>
+          <div className="ml-auto flex items-center space-x-2">
+            <ThemeToggle />
+            <Button variant="ghost" size="sm" onClick={handleBackToRoleSelect}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Role Selection
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -207,15 +275,101 @@ const AuthPage = () => {
                 }
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-center p-6 border border-border rounded-lg bg-muted/20">
-                <p className="text-muted-foreground mb-4">
-                  Authentication system requires Supabase integration
-                </p>
-                <Button onClick={handleContinue} variant={selectedRole === 'student' ? 'default' : 'secondary'} className="w-full">
-                  Continue to Dashboard (Demo)
+            <CardContent>
+              <form onSubmit={handleAuth} className="space-y-4">
+                {selectedRole === 'student' ? (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <div className="flex">
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
+                          +254
+                        </span>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="712345678"
+                          value={formData.phone}
+                          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                          required
+                          className="rounded-l-none"
+                        />
+                      </div>
+                    </div>
+                    
+                    {authMode === 'signup' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName">Full Name</Label>
+                        <Input
+                          id="fullName"
+                          type="text"
+                          placeholder="Enter your full name"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                          required
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="educator@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      required
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    required
+                  />
+                </div>
+
+                {authMode === 'signup' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      placeholder="Confirm your password"
+                      value={formData.confirmPassword}
+                      onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                      required
+                    />
+                  </div>
+                )}
+
+                <Button 
+                  type="submit" 
+                  variant={selectedRole === 'student' ? 'default' : 'secondary'} 
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      <span>Please wait...</span>
+                    </div>
+                  ) : (
+                    <>
+                      {selectedRole === 'student' ? <Phone className="mr-2 h-4 w-4" /> : <Mail className="mr-2 h-4 w-4" />}
+                      {authMode === 'login' ? 'Sign In' : 'Create Account'}
+                    </>
+                  )}
                 </Button>
-              </div>
+              </form>
               
               <div className="text-center space-y-2">
                 {authMode === 'login' ? (

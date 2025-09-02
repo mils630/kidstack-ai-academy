@@ -11,14 +11,20 @@ import {
   Sparkles,
   Zap,
   Clock,
-  Star
+  Star,
+  FileText,
+  Download,
+  Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Link } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface Language {
   id: string;
@@ -33,6 +39,8 @@ interface Language {
   estimatedTime: string;
   nextLesson?: string;
   unlocked: boolean;
+  notes?: string[];
+  resources?: { title: string; description: string; type: 'pdf' | 'video' | 'article'; url?: string }[];
 }
 
 interface Lesson {
@@ -58,7 +66,18 @@ const languages: Language[] = [
     difficulty: 'beginner',
     estimatedTime: '4-6 weeks',
     nextLesson: 'Object-Oriented Programming Basics',
-    unlocked: true
+    unlocked: true,
+    notes: [
+      "Python is a high-level, interpreted programming language with dynamic semantics",
+      "Its high-level built in data structures make it attractive for Rapid Application Development",
+      "Python's simple, easy to learn syntax emphasizes readability and reduces program maintenance costs",
+      "Python supports modules and packages, which encourages program modularity and code reuse"
+    ],
+    resources: [
+      { title: "Python Basics Cheat Sheet", description: "Quick reference for Python syntax", type: "pdf" },
+      { title: "Python Installation Guide", description: "Step-by-step Python setup", type: "article" },
+      { title: "Intro to Python Video", description: "Visual introduction to Python", type: "video" }
+    ]
   },
   {
     id: 'javascript',
@@ -70,9 +89,20 @@ const languages: Language[] = [
     completedLessons: 11,
     color: 'learning-javascript',
     difficulty: 'beginner',
-    estimatedTime: '6-8 weeks',
+    estimatedTime: '6-8 weeks',  
     nextLesson: 'DOM Manipulation',
-    unlocked: true
+    unlocked: true,
+    notes: [
+      "JavaScript is the programming language of the web",
+      "It runs in browsers and can make web pages interactive",
+      "Modern JavaScript (ES6+) includes classes, arrow functions, and modules",
+      "JavaScript can also run on servers using Node.js"
+    ],
+    resources: [
+      { title: "JavaScript ES6+ Features", description: "Modern JavaScript syntax guide", type: "pdf" },
+      { title: "Browser Developer Tools", description: "How to debug JavaScript", type: "article" },
+      { title: "JavaScript Fundamentals", description: "Complete beginner course", type: "video" }
+    ]
   },
   {
     id: 'html-css',
@@ -211,10 +241,13 @@ const ProgrammingLanguagesPage = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Badge variant="outline" className="gradient-primary text-primary-foreground">
-              <Trophy className="w-3 h-3 mr-1" />
-              5 Languages
-            </Badge>
+            <div className="flex items-center space-x-2">
+              <ThemeToggle />
+              <Badge variant="outline" className="gradient-primary text-primary-foreground">
+                <Trophy className="w-3 h-3 mr-1" />
+                5 Languages
+              </Badge>
+            </div>
           </div>
         </div>
       </header>
@@ -374,8 +407,82 @@ const ProgrammingLanguagesPage = () => {
                 </Card>
               </div>
 
-              {/* Sidebar */}
+                {/* Sidebar */}
               <div className="space-y-6">
+                {/* Study Notes */}
+                {currentLanguage.notes && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <FileText className="w-5 h-5" />
+                        <span>Study Notes</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {currentLanguage.notes.map((note, index) => (
+                          <li key={index} className="text-sm p-3 bg-muted/20 rounded-lg border-l-4 border-primary">
+                            {note}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Resources */}
+                {currentLanguage.resources && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Download className="w-5 h-5" />
+                        <span>Resources</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {currentLanguage.resources.map((resource, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-muted/20 transition-colors">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-sm">{resource.title}</h4>
+                            <p className="text-xs text-muted-foreground">{resource.description}</p>
+                            <Badge variant="outline" className="text-xs mt-1">
+                              {resource.type.toUpperCase()}
+                            </Badge>
+                          </div>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm" variant="ghost">
+                                <Eye className="w-4 h-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl">
+                              <DialogHeader>
+                                <DialogTitle>{resource.title}</DialogTitle>
+                                <DialogDescription>{resource.description}</DialogDescription>
+                              </DialogHeader>
+                              <ScrollArea className="h-96 p-4 border border-border rounded-lg">
+                                <div className="space-y-4">
+                                  <p className="text-sm text-muted-foreground">
+                                    This is a preview of the {resource.type} resource. In a full implementation, 
+                                    this would show the actual content or provide download links.
+                                  </p>
+                                  <div className="bg-muted/20 p-4 rounded-lg">
+                                    <h4 className="font-medium mb-2">Resource Content Preview</h4>
+                                    <p className="text-sm">
+                                      {resource.type === 'pdf' && "📄 PDF document with detailed explanations and examples"}
+                                      {resource.type === 'video' && "🎥 Interactive video tutorial with subtitles"}
+                                      {resource.type === 'article' && "📖 Comprehensive article with code examples"}
+                                    </p>
+                                  </div>
+                                </div>
+                              </ScrollArea>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
                 {/* Quick Stats */}
                 <Card>
                   <CardHeader>

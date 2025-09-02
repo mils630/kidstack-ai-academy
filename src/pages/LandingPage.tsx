@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Brain, Code, Gamepad2, Heart, Zap, Star, Users, Award, BookOpen, Sparkles, Rocket, Target } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const LandingPage = () => {
   const features = [
@@ -107,13 +108,14 @@ const LandingPage = () => {
             <span className="font-bold text-xl">Kid.Stack AI</span>
           </div>
           
-          <nav className="flex items-center space-x-6 text-sm font-medium ml-auto">
+          <nav className="flex items-center space-x-4 text-sm font-medium ml-auto">
+            <ThemeToggle />
             <Link to="/auth" className="transition-colors hover:text-primary">
               <Button variant="outline">Login</Button>
             </Link>
-        <Link to="/auth">
-          <Button variant="default">Start Free Trial</Button>
-        </Link>
+            <Link to="/auth">
+              <Button variant="default">Start Free Trial</Button>
+            </Link>
           </nav>
         </div>
       </header>

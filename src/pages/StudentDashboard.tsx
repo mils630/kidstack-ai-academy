@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface SidebarItem {
   id: string;
@@ -197,6 +198,7 @@ const StudentDashboard = () => {
             </div>
             
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <div className="flex items-center space-x-2 text-sm">
                 <Zap className="w-4 h-4 text-yellow-500" />
                 <span>{studentStats.streak} day streak!</span>
