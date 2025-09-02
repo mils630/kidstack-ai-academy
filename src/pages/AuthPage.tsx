@@ -88,13 +88,12 @@ const AuthPage = () => {
         const { data, error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
-          options: {
-            data: {
-              full_name: formData.fullName,
-              role: selectedRole,
-              phone: formData.phone
+            options: {
+              data: {
+                full_name: formData.fullName,
+                role: selectedRole
+              }
             }
-          }
         });
 
         if (error) throw error;
@@ -277,49 +276,27 @@ const AuthPage = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleAuth} className="space-y-4">
-                {selectedRole === 'student' ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <div className="flex">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
-                          +254
-                        </span>
-                        <Input
-                          id="phone"
-                          type="tel"
-                          placeholder="712345678"
-                          value={formData.phone}
-                          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                          required
-                          className="rounded-l-none"
-                        />
-                      </div>
-                    </div>
-                    
-                    {authMode === 'signup' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="fullName">Full Name</Label>
-                        <Input
-                          id="fullName"
-                          type="text"
-                          placeholder="Enter your full name"
-                          value={formData.fullName}
-                          onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
-                          required
-                        />
-                      </div>
-                    )}
-                  </>
-                ) : (
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder={selectedRole === 'student' ? 'student@example.com' : 'educator@example.com'}
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    required
+                  />
+                </div>
+                
+                {authMode === 'signup' && (
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="fullName">Full Name</Label>
                     <Input
-                      id="email"
-                      type="email"
-                      placeholder="educator@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      id="fullName"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
                       required
                     />
                   </div>
@@ -364,7 +341,7 @@ const AuthPage = () => {
                     </div>
                   ) : (
                     <>
-                      {selectedRole === 'student' ? <Phone className="mr-2 h-4 w-4" /> : <Mail className="mr-2 h-4 w-4" />}
+                      <Mail className="mr-2 h-4 w-4" />
                       {authMode === 'login' ? 'Sign In' : 'Create Account'}
                     </>
                   )}

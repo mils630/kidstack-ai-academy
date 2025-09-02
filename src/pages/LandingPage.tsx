@@ -126,7 +126,7 @@ const LandingPage = () => {
         <div className="container relative px-4 md:px-6">
           <div className="flex flex-col items-center space-y-8 text-center">
             <div className="space-y-4">
-              <Badge className="px-4 py-2 text-sm font-semibold gradient-secondary text-secondary-foreground">
+              <Badge variant="secondary" className="px-4 py-2 text-sm font-semibold">
                 🚀 Your AI Study Buddy for Coding & Smart Learning
               </Badge>
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
@@ -165,7 +165,7 @@ const LandingPage = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Award className="w-4 h-4 text-green-500" />
-                <span>Phone verification only</span>
+                <span>Safe for kids</span>
               </div>
             </div>
           </div>
