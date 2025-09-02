@@ -1,73 +1,38 @@
-# Welcome to your Lovable project
+# KidStack AI Academy
 
-## Project info
+**Live Web App:** [ https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75]
 
-**URL**: https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75
+---
 
-## How can I edit this code?
+## What is KidStack AI Academy?
 
-There are several ways of editing your application.
+KidStack AI Academy is an interactive web platform designed to introduce children aged 7–16 to the exciting world of Artificial Intelligence (AI) and programming. The app features engaging lessons, hands-on coding exercises, and creative challenges that make learning technology fun and accessible for young minds.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75) and start prompting.
+## Why is this important for children aged 7–16?
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Early Exposure:** Introducing AI and programming at a young age helps children develop critical thinking, problem-solving, and logical reasoning skills.
+- **Future-Ready Skills:** As technology continues to shape our world, understanding AI and coding will be essential for many future careers.
+- **Creativity & Confidence:** Learning to code empowers children to turn their ideas into reality, boosting their creativity and self-confidence.
+- **Digital Literacy:** Early engagement with technology fosters responsible and informed digital citizens.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## How to Use
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Visit the [web app]( https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75).
+2. Explore interactive lessons and challenges.
+3. Practice coding and AI concepts in a safe, supportive environment.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Contributing
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## License
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/cf7fd68b-170d-45cf-8b15-65f83e169d75) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+[MIT](LICENSE)
